@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tia</title>
+    <meta http-equiv=Content-Type content='text/html;charset=utf-8'>
+    <meta http-equiv="refresh" content="60" />
+    <script src='http://libs.baidu.com/jquery/1.7.2/jquery.min.js'></script>
+    <link href='http://libs.baidu.com/bootstrap/2.3.2/css/bootstrap.min.css' rel='stylesheet'>
+    <script src='http://libs.baidu.com/bootstrap/2.3.2/js/bootstrap.min.js'></script>
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css'>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js'></script>
+</head>
+
+<body>
+</body>
+<table id='list' data-search='true'>
+</table>
+<table data-url='table.json' data-toggle='table' data-search='true' data-sort-name='day' data-sort-order='desc' data-show-columns='true' data-mobile-responsive='true' data-show-refresh='true'>
+    <thead>
+        <tr>
+            <th data-field='day' data-sortable='true'>发布日期</th>
+            <th data-field='name' data-sortable='true' data-formatter='formatter'>商品名称</th>
+            <th data-field='type' data-sortable='true'>类型</th>
+            <th data-field='from' data-sortable='true'>来源</th>
+            <th data-field='price' data-sortable='true'>单价</th>
+            <th data-field='extra' data-sortable='true'>其他</th>
+            <th data-field='count' data-sortable='true'>数量</th>
+        </tr>
+    </thead>
+</table>
+<script type="text/javascript">
+function formatter(value, row, index) {
+    return "<a target='_blank' href='" + row.href + "'>" + value + "</a>";
+}
+</script>
+<script type="text/javascript">
+$.get("crontab.log?"+Math.random(), {}, function(data) { document.title = 'Tia [' + data + ']'; })
+</script>
+
+</html>

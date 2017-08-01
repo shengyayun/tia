@@ -1,0 +1,16 @@
+{
+    "name": "proto/tia",
+    "description": "tia",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "shengyayun",
+            "email": "719048774@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"Tia\\": ["src/"]}
+    }
+}
