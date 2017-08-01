@@ -1,2 +1,5 @@
 # tia
-private
+
+crontab -e
+
+* * * * * php crontab.php
