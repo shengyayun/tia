@@ -11,7 +11,9 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js'></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js'></script>
     <style type="text/css">
-        body{padding:10px;}
+    body {
+        padding: 10px;
+    }
     </style>
 </head>
 
@@ -31,33 +33,45 @@
         <thead>
             <tr>
                 <th data-field='day' data-sortable='true'>发布日期</th>
-                <th data-field='name' data-sortable='true' data-formatter='formatter'>商品名称</th>
+                <th data-field='name' data-sortable='true' data-formatter='nameFormatter'>商品名称</th>
                 <th data-field='type' data-sortable='true'>类型</th>
                 <th data-field='from' data-sortable='true'>来源</th>
                 <th data-field='price' data-sortable='true'>单价</th>
-                <th data-field='extra' data-sortable='true'>其他</th>
+                <th data-field='extra' data-sortable='true' data-formatter='extraFormatter'>其他</th>
                 <th data-field='count' data-sortable='true'>数量</th>
             </tr>
         </thead>
     </table>
     <script type="text/javascript">
-        function formatter(value, row, index) {
-            return "<a target='_blank' href='" + row.href + "'>" + value + "</a>";
+    function nameFormatter(value, row, index) {
+        return "<a target='_blank' href='" + row.href + "'>" + value + "</a>";
+    }
+
+    function extraFormatter(value, row, index) {
+        if (value) {
+            return "1元=" + value + "金";
+        } else {
+            return null;
         }
+    }
     </script>
     <script type="text/javascript">
-        $.get("crontab.log?"+Math.random(), {}, function(data) { document.title = 'Tia [' + data + ']'; })
-        $('#auto_refresh').change(function(){
-            location.href = '?t=' + $(this).val();
-        })
-        var group = /\?t=(\d+)/.exec(location.href);
-        var t = group ? group[1] : 0;
-        $('#auto_refresh').val(t);
-        if (t > 0){
-            setTimeout(function(){location.reload();}, t * 1000)
-            var timeout = t;
-            setInterval(function(){timeout -= 1 ;$('#timeout').html(timeout);}, 1000)
-        }
+    $.get("crontab.log?" + Math.random(), {}, function(data) { document.title = 'Tia [' + data + ']'; })
+    $('#auto_refresh').change(function() {
+        location.href = '?t=' + $(this).val();
+    })
+    var group = /\?t=(\d+)/.exec(location.href);
+    var t = group ? group[1] : 0;
+    $('#auto_refresh').val(t);
+    if (t > 0) {
+        setTimeout(function() { location.reload(); }, t * 1000)
+        var timeout = t;
+        setInterval(function() {
+            timeout -= 1;
+            $('#timeout').html(timeout);
+        }, 1000)
+    }
     </script>
 </body>
+
 </html>

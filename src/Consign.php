@@ -38,11 +38,13 @@ class Consign {
 					if ($current[2] == '万金') {
 						$unit = $unit * 10000;
 					}
-					$item['extra'] = '1元=' . round($unit, 2) . '金';
+					$item['extra'] = round($unit, 2);
 				}
 				preg_match("/&yen;<span style=\"font-size: 18px;\"> ([\d\.]+)<\/span>/", $ul, $current);
 				$item['price'] = $current[1];
-				preg_match("/<ul id=\"ES(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})[^\"]*?/i", $ul, $current);
+				preg_match("/<ul id=\"(ES.*?)\"/i", $ul, $current);
+				$item['id'] = $current[1];
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/i", $item['id'], $current);
 				$item['day'] = $current[1] . '-' . $current[2] . '-' . $current[3] . ' ' . $current[4] . ':' . $current[5] . ':' . $current[6];
 				$list[] = $item;
 			}
@@ -72,7 +74,10 @@ class Consign {
 				preg_match("/<strong><span>([\d\.]+)<\/span>元/", $div, $current);
 				$item['price'] = $current[1];
 				$detail = file_get_contents($item['href']);
-				preg_match("/pytext=\".{2}(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})[^\"]*?\">\[复制物品编号\]/", $detail, $current);
+				preg_match("/pytext=\"(.*?)\">\[复制物品编号\]/", $detail, $current);
+				$item['id'] = $current[1];
+				preg_match("/.{2}(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $detail, $current);
+				$item['day'] = $current[1] . '-' . $current[2] . '-' . $current[3] . ' ' . $current[4] . ':' . $current[5] . ':' . $current[6];
 				if ($item['type'] == '游戏币') {
 					preg_match("/<dt class=\"left\">单件数量：(\d+)([^<]+)<\/dt>/", $detail, $matches);
 					$unit = $matches[1] / $item['price'];
@@ -80,9 +85,8 @@ class Consign {
 						$unit = $unit * 10000;
 					}
 					$unit = round($unit, 4);
-					$item['extra'] = '1元=' . round($unit, 2) . '金';
+					$item['extra'] = round($unit, 2);
 				}
-				$item['day'] = $current[1] . '-' . $current[2] . '-' . $current[3] . ' ' . $current[4] . ':' . $current[5] . ':' . $current[6];
 				$list[] = $item;
 			}
 		}
