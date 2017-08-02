@@ -56,7 +56,7 @@
     }
     </script>
     <script type="text/javascript">
-    $.get("crontab.log?" + Math.random(), {}, function(data) { document.title = 'Tia [' + data + ']'; })
+    $.get("update.log?" + Math.random(), {}, function(data) { document.title = 'Tia [' + data + ']'; })
     $('#auto_refresh').change(function() {
         location.href = '?t=' + $(this).val();
     })

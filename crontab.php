@@ -3,22 +3,26 @@ require_once "vendor/autoload.php";
 
 $model = new \Tia\Consign();
 $table = $model->table();
-$last = json_decode(file_get_contents("table.json"), true);
+$last = json_decode(file_get_contents(__DIR__ . "/table.json"), true);
 file_put_contents(__DIR__ . "/table.json", json_encode($table));
-file_put_contents(__DIR__ . "/crontab.log", date('H:i:s'));
+file_put_contents(__DIR__ . "/update.log", date('H:i:s'));
 
-$list = array_diff(array_column($table, 'id'), array_column($last, 'id'));
-foreach ($list as $id) {
+$diff = array_diff(array_column($table, 'id'), array_column($last, 'id'));
+foreach ($diff as $id) {
+	if (!$id) {
+		continue;
+	}
 	foreach ($table as $item) {
-		if ($item['id'] == $id && time() - strtotime($item['day']) < 86400) {
-			$group = "453639001";
-			$content = "{$item['name']} ({$item['day']})\n  ￥{$item['price']} × {$item['count']}\n";
+		if ($item['id'] == $id && time() - strtotime($item['day']) < 900) {
+			var_export($item);
+			$content = "{$item['name']} ({$item['day']})\n>> ￥{$item['price']} × {$item['count']}\n";
 			if (array_key_exists('extra', $item)) {
-				$content .= "  {$item['extra']}\n";
+				$content .= ">> 1元={$item['extra']}金\n";
 			}
-			$content .= "  {$item['href']}\n";
-			$url = "http://www.langdaren.com:5000/openqq/send_group_message?uid={$group}&content=" . urlencode($content);
-			file_get_contents($url);
+			$content .= ">> {$item['href']}\n";
+			//echo "\r\n" . file_get_contents("http://127.0.0.1:5000/openqq/send_group_message?uid=650283982&content=" . urlencode($content));
+			echo "\r\n" . file_get_contents("http://127.0.0.1:5000/openqq/send_friend_message?uid=719048774&content=" . urlencode($content));
+			echo "----------------------------------------------------------------------\r\n";
 		}
 	}
 }

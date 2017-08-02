@@ -2,4 +2,4 @@
 
 crontab -e
 
-* * * * * php crontab.php
+\* \* \* \* \* php crontab.php
