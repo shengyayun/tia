@@ -79,7 +79,7 @@ class Consign {
 				preg_match("/.{2}(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $detail, $current);
 				$item['day'] = $current[1] . '-' . $current[2] . '-' . $current[3] . ' ' . $current[4] . ':' . $current[5] . ':' . $current[6];
 				if ($item['type'] == '游戏币') {
-					preg_match("/<dt class=\"left\">单件数量：(\d+)([^<]+)<\/dt>/", $detail, $matches);
+					preg_match("/<dt class=\"left\">单件数量：([\d\.]+)([^<]+)<\/dt>/", $detail, $matches);
 					$unit = $matches[1] / $item['price'];
 					if ($matches[2] == '万金') {
 						$unit = $unit * 10000;
