@@ -5,7 +5,7 @@ class Consign {
 	public function table() {
 		$list = array_merge($this->uu(), $this->dd());
 		foreach ($list as $key => $value) {
-			if (in_array($value['type'], ['激活码', '通用点数'])) {
+			if (in_array($value['type'], ['激活码', '通用点数', '直冲点数'])) {
 				unset($list[$key]);
 				continue;
 			}
